@@ -185,3 +185,8 @@ Messages I sent:
 - "okay, bye"
 
 To finish your conversation with the Chatbot, send a message such as "quit", "exit", "bye".
+
+### References
+
+References:
+- [Create a Python GPT Chatbot - In Under 4 Minutes](https://www.youtube.com/watch?v=q5HiD5PNuck)
