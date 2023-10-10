@@ -1,6 +1,6 @@
 # Create a Python GPT Chatbot
 
-## Project Setup
+## 0. Project Setup
 
 Download a text editor, such as VSCode or Sublime Text. (I prefer VSCode)
 
@@ -68,7 +68,7 @@ deactivate
 Install the necessary packages into your virtual environment:
 
 ```sh
-pip install ...
+pip install openai
 ```
 
 Create a requirements.txt file to ensure that you have the necessary dependencies to run this code:
@@ -78,25 +78,23 @@ python -m pip freeze > requirements.txt # create a requirements.txt file
 python -m pip install -r requirements.txt # optional: download again
 ```
 
-Create a Python file `flappy_bird_tutorial.py`, which we will be working from:
+Create a main Python file, which we will be working from:
 
 ```sh
-echo > flappy_bird_tutorial.py
+echo > main.py
 ```
 
+Begin with the necessary imports:
+
 ```py
-# flappy_bird_tutorial.py
-import pygame
-import neat-python
-import time
-import os
-import random
+# main.py
+import openai
 ```
 
 Ensure this runs by heading into the terminal with the virtual environment running:
 
 ```sh
-python flappy_bird_tutorial.py
+python main.py
 ```
 
 Note: In Sublime, you can run the code with the following command: Ctrl-B
@@ -104,7 +102,7 @@ Note: In Sublime, you can run the code with the following command: Ctrl-B
 Save these files and update git before beginning the project:
 
 ```sh
-cd flappy_bird_ai
+cd python_gpt_chatbot
 
 git status
 git add .
@@ -114,3 +112,76 @@ git status
 git log --oneline
 q
 ```
+
+## 1. Getting an API Key
+
+Start by heading to the [API keys page on OpenAI's website](https://platform.openai.com/account/api-keys) and click on 'Create new secret key'.
+- Name: Does not matter, I went with 'Name'
+- Secret key: Copy this down, as you won't be able to view it again
+
+Note: If you do not already have an account, you will be prompted to Login/Sign up.
+
+Add the secret key to your Python code:
+
+```py
+# main.py
+import openai
+
+openai.api_key = "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"
+```
+
+## 2. Writing the Bot
+
+Copy down the following code:
+
+```py
+import openai
+
+openai.api_key = "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"
+
+def chat_with_gpt(prompt):
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "user", "content": prompt}]
+    )
+    
+    return response.choices[0].message.content.strip()
+
+if __name__ == "__main__":
+    while True:
+        user_input = input("You: ")
+        if user_input.lower() in ["quit", "exit", "bye"]:
+            break
+        
+        response = chat_with_gpt(user_input)
+        print("Chatbot: ", response)
+```
+
+Explanation of what exactly is going on here:
+- We are generating responses using a GPT model
+    - Current best model available: gpt-3.5-turbo
+    - Function `chat_with_gpt`:
+        - input `prompt`: The message we send to the terminal
+        - output: The cleaned up message we are sending to the GPT
+
+    - If the current Python module is being run as the main program:
+        - While loop is created (So that we can keep asking the chatbot questions)
+            - If our message contains "quit", "exit", or "bye": Break out of the while loop
+            - Else: Generate a response to our prompt, and print it out
+
+Our GPT Chatbot is already done!
+
+## 3. Testing the Bot
+
+Now that the bot is complete, let's test it out:
+
+```sh
+python main.py
+```
+
+Messages I sent:
+- "hello, how are you"
+- "well can u lie to me at least"
+- "okay, bye"
+
+To finish your conversation with the Chatbot, send a message such as "quit", "exit", "bye".
